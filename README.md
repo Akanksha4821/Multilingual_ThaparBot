@@ -19,6 +19,7 @@ Lightweight, clean architecture
 Ready for React/HTML frontend integration
 
 📌 Project Files & Their Use
+
 1️⃣ ThaparGpt.py (Main RAG Model – 367 LOC)
 
 Contains the core intelligence of the project:
