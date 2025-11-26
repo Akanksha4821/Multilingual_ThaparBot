@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ThaparGPT</title>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ThaparGPT — Clean UI</title>
+
+<style>
+:root {
+  --bg: radial-gradient(circle at top left, #1b2944 0%, #09091a 40%, #050712 75%, #020308 100%);
+  --card: rgba(15, 18, 32, 0.9);
+  --border: rgba(255,255,255,0.08);
+  --text: #f9fbff;
+  --muted: #a7b1c8;
+  --primary: #5b8cff;
+  --primary-light: rgba(91,140,255,0.18);
+  --accent-pink: #ff7ac7;
+  --accent-cyan: #3cefff;
+  --radius: 18px;
+  --shadow: 0 24px 60px rgba(0,0,0,0.55);
+  --shadow-soft: 0 14px 40px rgba(0,0,0,0.4);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Arial;
+}
+
+/* page background + glow */
+html,body{
+  height:100%;
+  margin:0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body::before {
+  content:"";
+  position:fixed;
+  inset:-80px;
+  z-index:-1;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255,122,199,0.25) 0, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(60,239,255,0.27) 0, transparent 50%);
+  opacity:0.9;
+}
+
+/* scrollbars subtle */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(130,150,255,0.8) transparent;
+}
+*::-webkit-scrollbar { width:6px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg,#5b8cff,#ff7ac7);
+  border-radius:999px;
+}
+
+/* layout */
+.container{
+  max-width:1080px;
+  margin:40px auto;
+  padding:0 20px;
+}
+
+/* Main Card - glassmorphism */
+.card{
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.06), rgba(0,0,0,0.78));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px;
+  backdrop-filter: blur(30px) saturate(160%);
+  border:1px solid rgba(255,255,255,0.12);
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  background:
+    linear-gradient(135deg, rgba(91,140,255,0.5), rgba(255,122,199,0.0), rgba(60,239,255,0.45));
+  opacity:0.35;
+  mix-blend-mode: screen;
+  pointer-events:none;
+}
+
+/* Header */
+header{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:22px;
+  position:relative;
+  z-index:1;
+}
+header img{
+  height:48px;
+  border-radius:14px;
+  box-shadow:0 10px 26px rgba(0,0,0,0.5);
+}
+header h1{
+  font-size:26px;
+  font-weight:700;
+  letter-spacing:0.03em;
+  color:#ffffff;
+}
+.small-muted{
+  color:var(--muted);
+  font-size:14px;
+  margin-top:4px;
+}
+
+/* home actions layout */
+.home-actions{
+  display:flex;
+  gap:16px;
+  margin-top:8px;
+  position:relative;
+  z-index:1;
+  flex-wrap:wrap;
+}
+
+/* Large option buttons */
+.big-btn{
+  flex:1;
+  min-width:220px;
+  padding:20px 22px;
+  border-radius: 18px;
+  border:1px solid rgba(255,255,255,0.16);
+  background:
+    linear-gradient(135deg, rgba(91,140,255,0.12), rgba(255,122,199,0.05)),
+    radial-gradient(circle at top left, rgba(255,255,255,0.12), transparent 60%);
+  cursor:pointer;
+  font-weight:600;
+  font-size:15px;
+  color:#fdfdff;
+  transition: transform .22s ease, box-shadow .22s ease, background .25s ease, border-color .22s ease;
+  box-shadow: 0 12px 34px rgba(0,0,0,0.55);
+  text-align:left;
+  position:relative;
+  overflow:hidden;
+}
+.big-btn::after{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background: radial-gradient(circle at 0 0, rgba(255,255,255,0.18), transparent 55%);
+  opacity:0;
+  transition:opacity .25s ease, transform .25s ease;
+  transform:translate3d(-10px,10px,0);
+}
+.big-btn:hover{
+  background:
+    linear-gradient(135deg, rgba(91,140,255,0.38), rgba(255,122,199,0.22)),
+    radial-gradient(circle at top left, rgba(255,255,255,0.26), transparent 65%);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.75);
+  transform:translateY(-2px) scale(1.01);
+  border-color:rgba(172,202,255,0.9);
+}
+.big-btn:hover::after{
+  opacity:1;
+  transform:translate3d(0,0,0);
+}
+
+/* Forms container */
+.center-box{
+  max-width:520px;
+  margin:22px auto;
+  background: linear-gradient(145deg, rgba(11,15,35,0.96), rgba(19,24,54,0.96));
+  padding:26px 26px 24px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  animation: fadeIn .25s ease;
+  border:1px solid rgba(255,255,255,0.12);
+  position:relative;
+  overflow:hidden;
+}
+.center-box::before{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  opacity:0.55;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 0 0, rgba(91,140,255,0.3), transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(60,239,255,0.22), transparent 55%);
+}
+.center-box h2{
+  margin:0 0 16px;
+  font-size:22px;
+  font-weight:650;
+  color:#ffffff;
+  position:relative;
+  z-index:1;
+}
+
+/* helper layout inside forms */
+.form-row > *:not(:last-child){
+  margin-bottom:10px;
+}
+.row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="password"],
+input[type="file"],
+textarea,
+select {
+  padding:12px 14px;
+  border-radius: 14px;
+  border:1px solid rgba(255,255,255,0.12);
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.08), rgba(5,7,20,0.96));
+  font-size:14px;
+  color:#f7f8ff;
+  transition:all .2s ease;
+  width:100%;
+  box-sizing:border-box;
+}
+input::placeholder,
+textarea::placeholder{
+  color:rgba(173,184,210,0.75);
+}
+input:focus, textarea:focus{
+  border-color: var(--primary);
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.12), rgba(7,10,26,0.98));
+  outline:none;
+  box-shadow:0 0 0 1px rgba(142,178,255,0.6), 0 0 0 7px rgba(92,140,255,0.20);
+}
+
+/* main action buttons */
+button.btn{
+  padding:13px 16px;
+  border-radius:14px;
+  border:none;
+  background: linear-gradient(135deg,#5b8cff,#8f7bff);
+  color:white;
+  font-weight:650;
+  cursor:pointer;
+  font-size:14px;
+  letter-spacing:0.02em;
+  transition: transform .16s ease, box-shadow .2s ease, filter .16s ease;
+  box-shadow:0 14px 32px rgba(0,0,0,0.7);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+button.btn:hover{
+  filter:brightness(1.06);
+  transform:translateY(-1px);
+  box-shadow:0 18px 40px rgba(0,0,0,0.85);
+}
+button.btn:active{
+  transform:translateY(0);
+  box-shadow:0 9px 24px rgba(0,0,0,0.65);
+}
+button.btn.danger{
+  background: linear-gradient(135deg,#ff5c7a,#ff9c6b);
+}
+
+/* Links */
+.link{
+  color:var(--accent-cyan);
+  cursor:pointer;
+  font-size:13px;
+  text-decoration:none;
+  font-weight:500;
+  position:relative;
+}
+.link::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-2px;
+  width:0;
+  height:2px;
+  border-radius:999px;
+  background:linear-gradient(90deg,#5b8cff,#ff7ac7);
+  transition:width .18s ease;
+}
+.link:hover::after{
+  width:100%;
+}
+
+/* Chat Layout */
+.app-frame{
+  display:flex;
+  height:72vh;
+  gap:22px;
+  margin-top:18px;
+  position:relative;
+  z-index:1;
+}
+.left-col{
+  width:300px;
+  background: radial-gradient(circle at top left, rgba(18,25,60,0.96), rgba(7,10,28,0.98));
+  border-radius:var(--radius);
+  padding:16px;
+  overflow:auto;
+  box-shadow: var(--shadow-soft);
+  border:1px solid rgba(255,255,255,0.12);
+}
+.right-col{
+  flex:1;
+  background: radial-gradient(circle at top left, rgba(18,25,60,0.96), rgba(7,10,28,0.98));
+  border-radius:var(--radius);
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  box-shadow: var(--shadow-soft);
+  border:1px solid rgba(255,255,255,0.12);
+}
+
+/* chat list items */
+.chat-list-item{
+  padding:9px 10px;
+  border-radius:12px;
+  margin-bottom:6px;
+  font-size:13px;
+  color:#e2e5ff;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.06);
+  cursor:pointer;
+  transition:background .18s ease, transform .14s ease, border-color .18s ease;
+}
+.chat-list-item:hover{
+  background:rgba(89,140,255,0.16);
+  border-color:rgba(163,193,255,0.85);
+  transform:translateY(-1px);
+}
+
+/* Chat Messages */
+.msg{
+  padding:11px 14px;
+  border-radius:16px;
+  margin:10px 0;
+  max-width:74%;
+  line-height:1.5;
+  font-size:14px;
+  word-wrap:break-word;
+}
+.msg.user{
+  margin-left:auto;
+  color:#ffffff;
+  background: linear-gradient(135deg,#5b8cff,#ff7ac7);
+  box-shadow:0 14px 26px rgba(0,0,0,0.55);
+}
+.msg.bot{
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.10), rgba(18,22,45,0.98));
+  color:#ecf0ff;
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+/* Chat Scroll Area */
+.chat-box{
+  flex:1;
+  overflow:auto;
+  padding:10px 4px;
+}
+
+/* chat header text */
+#chatTitle{
+  font-size:14px;
+  color:var(--muted);
+  margin-bottom:4px;
+}
+#chatMeta{
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:4px;
+}
+
+/* Input Area */
+.input-area{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+textarea.msg-input{
+  flex:1;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.12);
+  min-height:64px;
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.06), rgba(5,8,20,0.98));
+  color:#f9fbff;
+}
+textarea.msg-input:focus{
+  border-color: var(--primary);
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.12), rgba(8,12,30,0.98));
+  box-shadow:0 0 0 1px rgba(142,178,255,0.6), 0 0 0 7px rgba(92,140,255,0.20);
+}
+#fileInput{
+  max-width:190px;
+  font-size:12px;
+}
+
+/* Buttons small */
+.small-btn{
+  padding:8px 12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.18);
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.14), rgba(9,11,26,0.95));
+  cursor:pointer;
+  font-weight:500;
+  font-size:12px;
+  color:#f0f3ff;
+  transition:all .16s ease;
+  box-shadow:0 9px 20px rgba(0,0,0,0.6);
+}
+.small-btn:hover{
+  background: radial-gradient(circle at top left, rgba(91,140,255,0.5), rgba(12,16,38,0.98));
+  transform:translateY(-1px);
+  border-color:rgba(171,199,255,0.95);
+}
+.small-btn.warn{
+  background: linear-gradient(135deg,#ffd65a,#ff9f5a);
+  color:#190f05;
+}
+.small-btn.danger{
+  background: linear-gradient(135deg,#ff5c5c,#ff9968);
+  color:white;
+}
+
+/* Table */
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+  color:#eef1ff;
+}
+th{
+  background: linear-gradient(135deg,#5b8cff,#7d7bff);
+  color:white;
+  padding:10px;
+  border-radius:8px 8px 0 0;
+  text-align:left;
+}
+td{
+  padding:10px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+/* Footer */
+footer{
+  margin-top:22px;
+  font-size:12px;
+  color:var(--muted);
+}
+footer code{
+  padding:2px 6px;
+  border-radius:999px;
+  background:rgba(0,0,0,0.5);
+  border:1px solid rgba(255,255,255,0.12);
+}
+
+/* Animations */
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(6px)}
+  to{opacity:1; transform:translateY(0)}
+}
+
+.hidden{display:none}
+.muted{color:var(--muted)}
+.small{font-size:14px;color:var(--muted)}
+
+/* Responsive tweaks */
+@media (max-width:860px){
+  .app-frame{
+    flex-direction:column;
+    height:auto;
+  }
+  .left-col{
+    width:100%;
+    max-height:220px;
+  }
+}
+</style>
+</head>
+<body>
+<!-- keep your entire existing <body> content here unchanged -->
+>
+</head>
+
+<body>
+     <div class="container">
+    <div class="card" id="mainCard">
+      <header>
+        <!-- local uploaded image path used as logo -->
+        <img src="/mnt/data/fb9e3a84-ed10-4c52-950d-115faf4ff6a9.png" alt="logo" onerror="this.style.display='none'">
+        <div>
+          <h1>ThaparGPT</h1>
+          <div class="small-muted">Smart Multiligual RAG BOT</div>
+        </div>
+      </header>
+
+      <!-- HOME -->
+      <div id="homeView">
+        <div class="home-actions">
+          <button class="big-btn" onclick="show('userLoginView')">Login as User</button>
+          <button class="big-btn" onclick="show('adminLoginView')">Login as Admin</button>
+        </div>
+        <div style="margin-top:14px" class="small-muted"> <b></b> <b></b></div>
+      </div>
+
+      <!-- USER LOGIN -->
+      <div id="userLoginView" class="center-box hidden">
+        <h2>User Login</h2>
+        <div class="form-row">
+          <input id="u_name" type="text" placeholder="Username" autocomplete="username">
+          <input id="u_pass" type="password" placeholder="Password" autocomplete="current-password">
+          <button class="btn" onclick="userLogin()">Login</button>
+          <div class="row">
+            <div class="link" onclick="show('userRegisterView')">Create new account</div>
+            <div class="link" onclick="show('userForgotView')">Forgot password?</div>
+            <div style="margin-left:auto"><span class="link" onclick="show('homeView')">Back</span></div>
+          </div>
+          <div id="userLoginMsg" class="muted"></div>
+        </div>
+      </div>
+
+      <!-- USER REGISTER -->
+      <div id="userRegisterView" class="center-box hidden">
+        <h2>Create Account</h2>
+        <div class="form-row">
+          <input id="r_name" type="text" placeholder="Choose username" autocomplete="off">
+          <input id="r_pass" type="password" placeholder="Password (min 4 chars)" autocomplete="new-password">
+          <button class="btn" onclick="registerUser()">Create</button>
+          <div class="row">
+            <div class="link" onclick="show('userLoginView')">Back to login</div>
+          </div>
+          <div id="regMsg" class="muted"></div>
+        </div>
+      </div>
+
+      <!-- FORGOT -->
+      <div id="userForgotView" class="center-box hidden">
+        <h2>Forgot Password</h2>
+        <div class="form-row">
+          <input id="f_name" type="text" placeholder="Enter username">
+          <button class="btn" onclick="forgotPassword()">Generate Reset Code</button>
+          <div class="link" onclick="show('userResetView')">Have a code? Reset password</div>
+          <div class="link" onclick="show('userLoginView')">Back</div>
+          <div id="forgotMsg" class="muted"></div>
+        </div>
+      </div>
+
+      <!-- RESET -->
+      <div id="userResetView" class="center-box hidden">
+        <h2>Reset Password</h2>
+        <div class="form-row">
+          <input id="rs_name" type="text" placeholder="Username">
+          <input id="rs_code" type="text" placeholder="Reset code">
+          <input id="rs_pass" type="password" placeholder="New password (min 4)">
+          <button class="btn" onclick="resetPassword()">Reset</button>
+          <div class="link" onclick="show('userLoginView')">Back to login</div>
+          <div id="resetMsg" class="muted"></div>
+        </div>
+      </div>
+
+      <!-- CHAT AREA (user) -->
+      <div id="chatView" class="hidden">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h2 style="margin:6px 0">Your Chat</h2>
+          <div>
+            <button class="small-btn" onclick="show('homeView'); logout()">Logout</button>
+          </div>
+        </div>
+
+        <div class="app-frame">
+          <div class="left-col">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+              <div><strong>Chats</strong></div>
+              <div class="small muted">Saved locally on server</div>
+            </div>
+            <div id="chatHistoryList"></div>
+          </div>
+
+          <div class="right-col">
+            <div id="chatTitle" class="muted">Select a chat or start new</div>
+            <div class="chat-box" id="chatBox"></div>
+
+            <div class="meta" id="chatMeta"></div>
+
+            <div class="input-area" style="margin-top:8px">
+              <textarea id="msgInput" class="msg-input" placeholder="Write a message..."></textarea>
+              <input id="fileInput" type="file" style="width:180px">
+              <button class="btn" onclick="sendMessage()">Send</button>
+            </div>
+            <div id="textSendMsg" class="muted" style="margin-top:8px"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN LOGIN -->
+      <div id="adminLoginView" class="center-box hidden">
+        <h2>Admin Login</h2>
+        <div class="form-row">
+          <input id="a_name" type="text" placeholder="Admin username" value="admin">
+          <input id="a_pass" type="password" placeholder="Password" value="123">
+          <div style="display:flex;gap:10px">
+            <button class="btn" onclick="adminLogin()">Login</button>
+            <button class="btn" onclick="show('homeView')">Back</button>
+          </div>
+          <div id="adminLoginMsg" class="muted"></div>
+        </div>
+      </div>
+
+      <!-- ADMIN DASHBOARD -->
+      <div id="adminView" class="hidden">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h2 style="margin:6px 0">Admin Dashboard</h2>
+          <div>
+            <button class="small-btn" onclick="show('homeView'); logout()">Logout</button>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:12px">
+          <div style="flex:1">
+            <div class="card" style="padding:12px">
+              <strong>Registered Users</strong>
+              <div style="margin-top:10px;max-height:340px;overflow:auto">
+                <table>
+                  <thead><tr><th>ID</th><th>Username</th><th>Created</th><th>Last Login</th><th>Action</th></tr></thead>
+                  <tbody id="adminUsersTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div style="flex:1">
+            <div class="card" style="padding:12px">
+              <strong>User Chat History</strong>
+              <div id="adminHistoryPanel" style="margin-top:10px;max-height:420px;overflow:auto"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+         
+      </footer>
+
+    </div>
+  </div>
+
+<script>
+/*
+  Fixed single-file UI:
+  - clearer element IDs
+  - ensures inputs are cleared on view change
+  - robust fetch handling (json/text fallback)
+  - matches your app.py endpoints exactly
+*/
+
+const API = "http://127.0.0.1:5000";
+
+/* --- small helpers --- */
+function el(id){ return document.getElementById(id) }
+function show(viewId){
+  const views = ['homeView','userLoginView','userRegisterView','userForgotView','userResetView','chatView','adminLoginView','adminView'];
+  views.forEach(v => el(v).classList.add('hidden'));
+  el(viewId).classList.remove('hidden');
+  clearMessages();
+  clearInputsFor(viewId);
+}
+
+function clearMessages(){
+  ['userLoginMsg','regMsg','forgotMsg','resetMsg','textSendMsg','adminLoginMsg'].forEach(id=>{
+    if(el(id)) el(id).textContent = '';
+  });
+}
+
+function clearInputsFor(viewId){
+  if(viewId === 'userLoginView'){
+    el('u_name').value=''; el('u_pass').value='';
+  }
+  if(viewId === 'userRegisterView'){
+    el('r_name').value=''; el('r_pass').value='';
+  }
+  if(viewId === 'userForgotView'){
+    el('f_name').value='';
+  }
+  if(viewId === 'userResetView'){
+    el('rs_name').value=''; el('rs_code').value=''; el('rs_pass').value='';
+  }
+}
+
+async function parseResponse(res){
+  const ct = res.headers.get('content-type') || '';
+  if(ct.includes('application/json')){
+    return res.json();
+  } else {
+    const txt = await res.text();
+    try { return JSON.parse(txt) } catch(e) { return { message: txt, raw: txt }; }
+  }
+}
+
+/* USER REGISTER */
+async function registerUser(){
+  const username = el('r_name').value.trim();
+  const password = el('r_pass').value;
+  if(!username || !password){ el('regMsg').textContent='Username and password required'; return; }
+  if(password.length < 4){ el('regMsg').textContent='Password must be at least 4 characters'; return; }
+
+  try{
+    const res = await fetch(API+'/register',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({username,password})
+    });
+    const data = await parseResponse(res);
+    if(res.ok && data.success){
+      el('regMsg').textContent='Account created. You can now login.';
+      show('userLoginView');
+      el('u_name').value = username;
+    } else {
+      el('regMsg').textContent = data.error || data.message || 'Failed to create account';
+    }
+  } catch(err){
+    el('regMsg').textContent='Network error: '+err.message;
+  }
+}
+
+/* USER LOGIN */
+async function userLogin(){
+  const username = el('u_name').value.trim();
+  const password = el('u_pass').value;
+  if(!username || !password){ el('userLoginMsg').textContent='Username and password required'; return; }
+
+  try{
+    const res = await fetch(API+'/login',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({username,password})
+    });
+    const data = await parseResponse(res);
+    if(res.ok && data.success && !data.is_admin){
+      localStorage.setItem('tpg_user_id', data.user_id);
+      localStorage.setItem('tpg_username', data.username);
+      await loadUserChat();
+      show('chatView');
+    } else {
+      el('userLoginMsg').textContent=data.error || data.message || 'Invalid username or password';
+    }
+  } catch(err){
+    el('userLoginMsg').textContent='Network error: '+err.message;
+  }
+}
+
+/* FORGOT PASSWORD */
+async function forgotPassword(){
+  const username = el('f_name').value.trim();
+  if(!username){ el('forgotMsg').textContent='Username required'; return; }
+  try{
+    const res = await fetch(API+'/forgot-password',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({username})
+    });
+    const data = await parseResponse(res);
+    if(res.ok && data.success){
+      el('forgotMsg').textContent='Reset code: '+data.reset_code;
+    } else {
+      el('forgotMsg').textContent=data.error || 'User not found';
+    }
+  } catch(err){
+    el('forgotMsg').textContent='Network error: '+err.message;
+  }
+}
+
+/* RESET PASSWORD */
+async function resetPassword(){
+  const username = el('rs_name').value.trim();
+  const code = el('rs_code').value.trim();
+  const new_pass = el('rs_pass').value;
+  if(!username || !code || !new_pass){ el('resetMsg').textContent='All fields required'; return; }
+  if(new_pass.length<4){ el('resetMsg').textContent='Password must be at least 4 characters'; return; }
+
+  try{
+    const res = await fetch(API+'/reset-password',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({username, reset_code:code, new_password:new_pass})
+    });
+    const data = await parseResponse(res);
+    if(res.ok && data.success){
+      el('resetMsg').textContent='Password reset successful — please login.';
+      show('userLoginView');
+      el('u_name').value=username;
+    } else {
+      el('resetMsg').textContent=data.error || 'Reset failed';
+    }
+  } catch(err){
+    el('resetMsg').textContent='Network error: '+err.message;
+  }
+}
+
+/* LOAD CHAT */
+async function loadUserChat(){
+  const uid = localStorage.getItem('tpg_user_id');
+  if(!uid) return;
+
+  try{
+    const res = await fetch(API+'/history',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({user_id:uid})
+    });
+    const data = await parseResponse(res);
+
+    const listEl = el('chatHistoryList');
+    const chatBox = el('chatBox');
+    listEl.innerHTML='';
+    chatBox.innerHTML='';
+
+    if(res.ok && data.success){
+      const hist = data.history || [];
+
+      if(hist.length===0){
+        listEl.innerHTML='<div class="small muted">No conversations yet.</div>';
+      } else {
+        hist.forEach(h=>{
+          const item=document.createElement('div');
+          item.className='chat-list-item';
+          item.innerText=(h.file_name ? 'File: '+h.file_name+' — ' : '') + (h.message || '[empty]');
+          item.onclick=()=>{
+            chatBox.innerHTML='';
+            chatBox.innerHTML+=`<div class="msg user">${escapeHtml(h.message)}</div>`;
+            chatBox.innerHTML+=`<div class="msg bot">${escapeHtml(h.response)}</div>`;
+          }
+          listEl.appendChild(item);
+
+          chatBox.innerHTML+=`<div class="msg user">${escapeHtml(h.message)}</div>`;
+          chatBox.innerHTML+=`<div class="msg bot">${escapeHtml(h.response)}</div>`;
+        });
+      }
+
+      el('chatTitle').textContent=`Logged in as ${localStorage.getItem('tpg_username')}`;
+      el('chatMeta').textContent=`${hist.length} messages`;
+    }
+  } catch(err){
+    console.error(err);
+  }
+}
+
+function escapeHtml(s){
+  if(!s) return '';
+  return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+}
+
+/* SEND MESSAGE */
+async function sendMessage(){
+  const uid = localStorage.getItem('tpg_user_id');
+  if(!uid){ alert('Please login'); return; }
+
+  const msg = el('msgInput').value.trim();
+  const file = el('fileInput').files[0];
+
+  if(!msg && !file){ el('textSendMsg').textContent='Write a message or choose a file'; return; }
+  el('textSendMsg').textContent='Sending...';
+
+  try{
+    if(!file){
+      const res = await fetch(API+'/text',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({message:msg, user_id:uid})
+      });
+      const data = await parseResponse(res);
+      if(res.ok && data.success){
+        const box=el('chatBox');
+        box.innerHTML+=`<div class="msg user">${escapeHtml(msg)}</div>`;
+        box.innerHTML+=`<div class="msg bot">${escapeHtml(data.response)}</div>`;
+        el('msgInput').value='';
+        el('fileInput').value='';
+        box.scrollTop=box.scrollHeight;
+        el('textSendMsg').textContent='';
+        loadUserChat();
+      } else el('textSendMsg').textContent=data.error || 'Send failed';
+    } else {
+      const fd=new FormData();
+      fd.append('file', file);
+      fd.append('message', msg);
+      fd.append('user_id', uid);
+
+      const res = await fetch(API+'/file',{ method:'POST', body:fd });
+      const data = await parseResponse(res);
+
+      if(res.ok && data.success){
+        const box=el('chatBox');
+        box.innerHTML+=`<div class="msg user">📁 ${escapeHtml(file.name)} ${escapeHtml(msg)}</div>`;
+        box.innerHTML+=`<div class="msg bot">${escapeHtml(data.response)}</div>`;
+        el('msgInput').value='';
+        el('fileInput').value='';
+        box.scrollTop=box.scrollHeight;
+        el('textSendMsg').textContent='';
+        loadUserChat();
+      } else el('textSendMsg').textContent=data.error || 'Upload failed';
+    }
+  } catch(err){
+    el('textSendMsg').textContent='Network error: '+err.message;
+  }
+}
+
+/* ADMIN LOGIN */
+async function adminLogin(){
+  const username = el('a_name').value.trim();
+  const password = el('a_pass').value;
+
+  try{
+    const res = await fetch(API+'/login',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({username,password})
+    });
+    const data = await parseResponse(res);
+    if(res.ok && data.success && data.is_admin){
+      await loadAdminUsers();
+      show('adminView');
+    } else {
+      el('adminLoginMsg').textContent=data.error || 'Invalid admin login';
+    }
+  } catch(err){
+    el('adminLoginMsg').textContent='Network error: '+err.message;
+  }
+}
+
+/* ADMIN LOAD USERS */
+async function loadAdminUsers(){
+  try{
+    const res = await fetch(API+'/admin/users');
+    const data = await parseResponse(res);
+    if(res.ok && data.success){
+      const tbody=el('adminUsersTable'); tbody.innerHTML='';
+      data.users.forEach(u=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML=`
+          <td>${u.id}</td>
+          <td>${escapeHtml(u.username)}</td>
+          <td>${u.created_at||''}</td>
+          <td>${u.last_login||''}</td>
+          <td>
+            <button class="small-btn" onclick="adminViewHistory(${u.id})">View</button>
+            <button class="small-btn danger" onclick="adminDeleteUser(${u.id})">Delete</button>
+            <button class="small-btn warn" onclick="adminClearHistory(${u.id})">Clear</button>
+          </td>`;
+        tbody.appendChild(tr);
+      });
+    }
+  } catch(err){ console.error(err); }
+}
+
+async function adminViewHistory(user_id){
+  try{
+    const res = await fetch(API+'/admin/user-history',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({user_id})
+    });
+    const data=await parseResponse(res);
+    if(res.ok && data.success){
+      const panel=el('adminHistoryPanel');
+      panel.innerHTML=`<h4>History for ${escapeHtml(data.username)}</h4>`;
+      if(data.history.length===0){
+        panel.innerHTML+='<div class="small muted">No history.</div>';
+      }
+      data.history.forEach(h=>{
+        panel.innerHTML+=`
+          <div style="padding:8px;border-bottom:1px solid #f0f2f5">
+            <div><b>User:</b> ${escapeHtml(h.message)}</div>
+            <div style="margin-top:6px"><b>Bot:</b> ${escapeHtml(h.response)}</div>
+            <div class="small muted" style="margin-top:6px">${h.timestamp||''} ${h.file_name ? ' • '+escapeHtml(h.file_name) : ''}</div>
+          </div>`;
+      });
+    }
+  } catch(err){ console.error(err); }
+}
+
+async function adminDeleteUser(user_id){
+  if(!confirm('Delete this user and all history?')) return;
+
+  try{
+    const res = await fetch(API+'/admin/delete-user',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({user_id})
+    });
+    const data=await parseResponse(res);
+    if(res.ok && data.success){
+      alert('Deleted');
+      await loadAdminUsers();
+      el('adminHistoryPanel').innerHTML='';
+    } else alert(data.error || 'Delete failed');
+  } catch(err){ alert('Network error'); }
+}
+
+async function adminClearHistory(user_id){
+  if(!confirm('Clear chat history?')) return;
+
+  try{
+    const res = await fetch(API+'/admin/clear-history',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({user_id})
+    });
+    const data=await parseResponse(res);
+    if(res.ok && data.success){
+      alert('Cleared history');
+      el('adminHistoryPanel').innerHTML='';
+    } else alert(data.error || 'Failed');
+  } catch(err){ alert('Network error'); }
+}
+
+function logout(){
+  localStorage.removeItem('tpg_user_id');
+  localStorage.removeItem('tpg_username');
+  el('chatBox').innerHTML='';
+  el('chatHistoryList').innerHTML='';
+  show('homeView');
+}
+
+(function init(){
+  const uid=localStorage.getItem('tpg_user_id');
+  if(uid){
+    loadUserChat();
+    show('chatView');
+  } else show('homeView');
+})();
+</script>
+
+</body>
+</html>
+
